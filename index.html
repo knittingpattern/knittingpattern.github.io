@@ -51,9 +51,10 @@
             window.scrollBy(0,row_width);
         }
         
+                
         function incWidth(event) {
             //let adjustment_val = event.target.id == "wider-button" ? 2 : -2;
-            adjustment_val = 2;
+            adjustment_val = 1;
             let cover_div = document.querySelector("#cover-div");
             let top_string = getComputedStyle(cover_div).top;
             let top_val = parseInt(top_string.substr(0,top_string.length - 2));
@@ -63,7 +64,27 @@
         
         function decWidth(event) {
             //let adjustment_val = event.target.id == "wider-button" ? 2 : -2;
-            adjustment_val = -2;
+            adjustment_val = -1;
+            let cover_div = document.querySelector("#cover-div");
+            let top_string = getComputedStyle(cover_div).top;
+            let top_val = parseInt(top_string.substr(0,top_string.length - 2));
+            let new_val = top_val + adjustment_val;
+            cover_div.style.top = new_val + "px";
+        }
+        
+        function incWidthClick(event) {
+            //let adjustment_val = event.target.id == "wider-button" ? 2 : -2;
+            adjustment_val = 3;
+            let cover_div = document.querySelector("#cover-div");
+            let top_string = getComputedStyle(cover_div).top;
+            let top_val = parseInt(top_string.substr(0,top_string.length - 2));
+            let new_val = top_val + adjustment_val;
+            cover_div.style.top = new_val + "px";
+        }
+        
+        function decWidthClick(event) {
+            //let adjustment_val = event.target.id == "wider-button" ? 2 : -2;
+            adjustment_val = -3;
             let cover_div = document.querySelector("#cover-div");
             let top_string = getComputedStyle(cover_div).top;
             let top_val = parseInt(top_string.substr(0,top_string.length - 2));
@@ -83,18 +104,23 @@
         document.getElementById("uploadInput").addEventListener("change", setBackground, false);
         
         document.getElementById("wider-button").onmousedown = function() {
-            interval = setInterval(incWidth, 100);
+            interval = setInterval(incWidth, 50);
         };
         document.getElementById("wider-button").onmouseup = function() {
             clearInterval(interval);
         };
         
         document.getElementById("narrower-button").onmousedown = function() {
-            decInterval = setInterval(decWidth, 100);
+            decInterval = setInterval(decWidth, 50);
         };
         document.getElementById("narrower-button").onmouseup = function() {
             clearInterval(decInterval);
         };
+        
+        document.getElementById("narrower_button").addEventListener("click", decWidthClick, false);
+
+        document.getElementById("wider_button").addEventListener("click", incWidthClick, false);
+
         
         document.getElementById("toggle-mask").addEventListener("click", toggleMask, false);
     </script>
