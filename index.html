@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Knitting Pattern</title>
+        <meta name="description" content="An interactive getting started guide for Brackets.">
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+        <div id="header-div">
+            <div class="logo-wrapper">
+                <p class="logo" style="transform: translateY(2px)">Knitting Pattern</p>
+            </div>
+            
+            <div class="buttons-wrapper">
+                <label class="button-1">
+                    <input id="uploadInput" type="file" id="input" accept="image/png, image/jpg" /> Upload
+                </label>
+
+                <button class="button-4" id="wider-button">Wider</button>
+                <button class="button-4" id="narrower-button">Narrower</button>
+                <button class="button-4" id="toggle-mask">Toggle mask</button>
+                <button class="button-3" id="next">Next</button>
+            </div>
+
+        </div>       
+
+        <div id="cover-div"></div>
+        <div id="display-image"></div>
+        
+    <script>
+        function setBackground() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.addEventListener("load", () => {
+                    const uploaded_image = reader.result;
+                    document.querySelector("#display-image").style.backgroundImage = `url(${uploaded_image})`;
+                });
+                reader.readAsDataURL(this.files[0]);
+            }
+        }
+        
+        function next() {
+            let cover_div = document.querySelector("#cover-div");
+            let top_string = getComputedStyle(cover_div).top;
+            let top_val = parseInt(top_string.substr(0,top_string.length - 2));
+            let row_width = (top_val - 100) / 3;
+            window.scrollBy(0,row_width);
+        }
+        
+        function incWidth(event) {
+            //let adjustment_val = event.target.id == "wider-button" ? 2 : -2;
+            adjustment_val = 2;
+            let cover_div = document.querySelector("#cover-div");
+            let top_string = getComputedStyle(cover_div).top;
+            let top_val = parseInt(top_string.substr(0,top_string.length - 2));
+            let new_val = top_val + adjustment_val;
+            cover_div.style.top = new_val + "px";
+        }
+        
+        function decWidth(event) {
+            //let adjustment_val = event.target.id == "wider-button" ? 2 : -2;
+            adjustment_val = -2;
+            let cover_div = document.querySelector("#cover-div");
+            let top_string = getComputedStyle(cover_div).top;
+            let top_val = parseInt(top_string.substr(0,top_string.length - 2));
+            let new_val = top_val + adjustment_val;
+            cover_div.style.top = new_val + "px";
+        }
+        
+        function toggleMask(event) {
+            let cover_div = document.querySelector("#cover-div");
+            let z_index = getComputedStyle(cover_div).zIndex;
+            z_index = z_index == -1 ? 1 : -1;
+            cover_div.style.zIndex = z_index;
+        }
+        
+        document.getElementById("next").addEventListener("click", next, false);
+        
+        document.getElementById("uploadInput").addEventListener("change", setBackground, false);
+        
+        document.getElementById("wider-button").onmousedown = function() {
+            interval = setInterval(incWidth, 100);
+        };
+        document.getElementById("wider-button").onmouseup = function() {
+            clearInterval(interval);
+        };
+        
+        document.getElementById("narrower-button").onmousedown = function() {
+            decInterval = setInterval(decWidth, 100);
+        };
+        document.getElementById("narrower-button").onmouseup = function() {
+            clearInterval(decInterval);
+        };
+        
+        document.getElementById("toggle-mask").addEventListener("click", toggleMask, false);
+    </script>
+
+    </body>
+</html>
