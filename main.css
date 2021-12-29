@@ -45,6 +45,7 @@ body {
     margin-left: auto;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .logo {
@@ -77,6 +78,10 @@ p {
     visibility: hidden;
 }
 
+#next {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
 
 
 #display-image {
