@@ -29,17 +29,23 @@
                 <button class="button-4" id="wider-button">Wider</button>
                 <button class="button-4" id="narrower-button">Narrower</button>
                 <button class="button-4" id="toggle-mask">Toggle mask</button>
-                <button class="button-3" id="next">Next</button>
+                <button class="button-3" id="next">Next row</button>
             </div>
 
         </div>       
-
-        <div id="cover-div"></div>
-        <div id="display-image"></div>
+        
+        <div class="cover cover-gone" id="upper-cover-div"></div>
+        <div class="cover cover-gone" id="lower-cover-div"></div>
+        <!--<div id="display-image"></div>-->
+        <img id="display-image-img" />
+        
         
     <script>
         /* Get the documentElement (<html>) to display the page in fullscreen */
         var elem = document.documentElement;
+        var starting_size_of_gap = 80;
+        let window_height = window.innerHeight;
+        
 
         /* View in fullscreen */
         function openFullscreen() {
@@ -63,71 +69,122 @@
           }
         }
         
-        function setBackground() {
+        function setBackground(event) {
             if (this.files && this.files[0]) {
                 const reader = new FileReader();
                 reader.addEventListener("load", () => {
                     const uploaded_image = reader.result;
-                    document.querySelector("#display-image").style.backgroundImage = `url(${uploaded_image})`;
+                    //document.querySelector("#display-image").style.backgroundImage = `url(${uploaded_image})`;
+                    let display_img = document.querySelector("#display-image-img");
+                    display_img.src = URL.createObjectURL(event.target.files[0]);
+                    display_img.style.paddingTop = (window.innerHeight / 2) + "px";
+                    display_img.style.paddingBottom = (window.innerHeight / 2) + "px";
+                    display_img.style.visibility = "visible";
+                    
+                    var scrollTimeout = setTimeout(() => {
+                        document.scrollingElement.scrollTop = document.scrollingElement.scrollHeight - 100;
+                        let upper_cover_div = document.querySelector("#upper-cover-div");
+                        let lower_cover_div = document.querySelector("#lower-cover-div");
+                        upper_cover_div.classList.remove('cover-gone');
+                        lower_cover_div.classList.remove('cover-gone');
+                    }, 0);
                 });
                 reader.readAsDataURL(this.files[0]);
             }
+            
+
         }
         
         function next() {
-            let cover_div = document.querySelector("#cover-div");
-            let top_string = getComputedStyle(cover_div).top;
-            let top_val = parseInt(top_string.substr(0,top_string.length - 2));
-            let row_width = (top_val - 100) / 3;
-            window.scrollBy(0,row_width);
+            let upper_cover_div = document.querySelector("#upper-cover-div");
+            let lower_cover_div = document.querySelector("#lower-cover-div");
+            let ucd_margin_bottom_str = getComputedStyle(upper_cover_div).marginBottom;
+            let ucd_margin_top_str = getComputedStyle(lower_cover_div).marginTop;
+            let ucd_margin_bottom_val = parseInt(ucd_margin_bottom_str.substr(0,ucd_margin_bottom_str.length - 2));
+            let ucd_margin_top_val = parseInt(ucd_margin_top_str.substr(0,ucd_margin_bottom_str.length - 2));
+            let row_width = (ucd_margin_bottom_val + ucd_margin_top_val) / 3;
+            //window.scrollBy(0,-row_width,behavior='smooth');
+            window.scrollBy({ top: -row_width, behavior: 'smooth' });
         }
         
-                
+        function adjustUpperCover(event, val) {
+            let cover_div = document.querySelector("#upper-cover-div");
+            let margin_bottom = getComputedStyle(cover_div).marginBottom;
+            let margin_bottom_val = parseInt(margin_bottom.substr(0,margin_bottom.length - 2));
+            let new_val = margin_bottom_val + val;
+            cover_div.style.marginBottom = new_val + "px";
+        }
+        
+        function adjustLowerCover(event, val) {
+            let cover_div = document.querySelector("#lower-cover-div");
+            let margin_top = getComputedStyle(cover_div).marginTop;
+            let margin_top_val = parseInt(margin_top.substr(0,margin_top.length - 2));
+            let new_val = margin_top_val + val;
+            cover_div.style.marginTop = new_val + "px";
+        }
+        
         function incWidth(event) {
             //let adjustment_val = event.target.id == "wider-button" ? 2 : -2;
-            adjustment_val = 1;
+            /*adjustment_val = 1;
             let cover_div = document.querySelector("#cover-div");
             let top_string = getComputedStyle(cover_div).top;
             let top_val = parseInt(top_string.substr(0,top_string.length - 2));
             let new_val = top_val + adjustment_val;
-            cover_div.style.top = new_val + "px";
+            cover_div.style.top = new_val + "px";*/
+            let val = 1;
+            adjustLowerCover(event, val);
+            adjustUpperCover(event, val);
         }
         
         function decWidth(event) {
             //let adjustment_val = event.target.id == "wider-button" ? 2 : -2;
-            adjustment_val = -1;
+            /*adjustment_val = -1;
             let cover_div = document.querySelector("#cover-div");
             let top_string = getComputedStyle(cover_div).top;
             let top_val = parseInt(top_string.substr(0,top_string.length - 2));
             let new_val = top_val + adjustment_val;
-            cover_div.style.top = new_val + "px";
+            cover_div.style.top = new_val + "px";*/
+            let val = -0.5;
+            adjustLowerCover(event, val);
+            adjustUpperCover(event, val);
         }
         
         function incWidthClick(event) {
             //let adjustment_val = event.target.id == "wider-button" ? 2 : -2;
-            adjustment_val = 3;
+            /*adjustment_val = 3;
             let cover_div = document.querySelector("#cover-div");
             let top_string = getComputedStyle(cover_div).top;
             let top_val = parseInt(top_string.substr(0,top_string.length - 2));
             let new_val = top_val + adjustment_val;
-            cover_div.style.top = new_val + "px";
+            cover_div.style.top = new_val + "px";*/
+            let val = 1;
+            adjustLowerCover(event, val);
+            adjustUpperCover(event, val);
         }
         
         function decWidthClick(event) {
             //let adjustment_val = event.target.id == "wider-button" ? 2 : -2;
-            adjustment_val = -3;
+            /*adjustment_val = -3;
             let cover_div = document.querySelector("#cover-div");
             let top_string = getComputedStyle(cover_div).top;
             let top_val = parseInt(top_string.substr(0,top_string.length - 2));
             let new_val = top_val + adjustment_val;
-            cover_div.style.top = new_val + "px";
+            cover_div.style.top = new_val + "px";*/
+            let val = -1;
+            adjustLowerCover(event, val);
+            adjustUpperCover(event, val);
         }
         
         function toggleMask(event) {
-            let cover_div = document.querySelector("#cover-div");
-            let z_index = getComputedStyle(cover_div).zIndex;
-            z_index = z_index == -1 ? 1 : -1;
-            cover_div.style.zIndex = z_index;
+            let upper_cover_div = document.querySelector("#upper-cover-div");
+            let lower_cover_div = document.querySelector("#lower-cover-div");
+            //let z_index = getComputedStyle(upper_cover_div).zIndex;
+            //z_index = z_index == -1 ? 1 : -1;
+            //upper_cover_div.style.zIndex = z_index;
+            //lower_cover_div.style.zIndex = z_index;
+            upper_cover_div.classList.toggle('cover-gone');
+            lower_cover_div.classList.toggle('cover-gone');
+            
         }
         
         document.getElementById("next").addEventListener("click", next, false);
@@ -152,6 +209,7 @@
 
         document.getElementById("wider-button").addEventListener("click", incWidthClick, false);
 
+        
         document.getElementById("toggle-mask").addEventListener("click", toggleMask, false);
         
         document.addEventListener('DOMContentLoaded', openFullscreen, false);
