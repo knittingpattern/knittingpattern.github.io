@@ -28,7 +28,10 @@ body {
     position: fixed;
     align-items: center;
     box-sizing: border-box;
-    height: 100px;
+    min-height: 100px;
+    flex-wrap: wrap;
+    padding-top: 16px;
+    padding-bottom: 16px;
 }
 
 
@@ -73,6 +76,8 @@ p {
     padding-bottom: 500px;
     visibility: hidden;
 }
+
+
 
 #display-image {
     position: absolute;
@@ -300,6 +305,7 @@ input[type="file"] {
 #toggle-mask {
     background-color: #E1E2E3;
     margin-left: 4px;
+    margin-right: 16px;
 }
 
 #toggle-mask:hover {
@@ -307,6 +313,7 @@ input[type="file"] {
   text-decoration: none;
   transition-duration: 0.1s;
 }
+
 
 
 /* CSS */
@@ -325,7 +332,9 @@ input[type="file"] {
   font-weight: 600;
   line-height: 20px;
   padding: 10px 16px;
-margin-left: 16px;
+  #margin-left: 16px;
+    #margin-top: 4px;
+
   position: relative;
   text-align: center;
   text-decoration: none;
