@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 body {
     -webkit-touch-callout:none;
     -webkit-user-select:none;
@@ -27,6 +31,7 @@ body {
     height: 100px;
 }
 
+
 .logo-wrapper {
     display: flex;
     align-items: center;
@@ -55,8 +60,21 @@ p {
     margin-inline-end: 0px;
 }
 
+#container-div {
+    margin-bottom: 40px;
+    width: 100%;
+    border: 1px black;
+}
+
+#display-image-img {
+    position: absolute;
+    width: 100%;
+    padding-top: 500px;
+    padding-bottom: 500px;
+    visibility: hidden;
+}
+
 #display-image {
-    height: 1500px;
     position: absolute;
     right: 0px;
     top: 100px;
@@ -65,16 +83,37 @@ p {
     background-repeat: no-repeat;
 }
 
-#cover-div {
+.img-in-position {
+    
+}
+
+.cover {
     position: fixed;
     left: 0;
-    right: 0;
-    top: 180px;
+    right: 0; 
     width: 100%;
-    bottom: 0;
     background-color:rgba(255,255,255,255);
     opacity: 0.9;
+    transition: opacity 2s;
     z-index:1;
+}
+
+#upper-cover-div {
+    bottom: 50%;
+    margin-bottom: 40px;
+    top: 0;
+}
+
+#lower-cover-div {
+    /*top: 180px;*/
+    top: 50%;
+    margin-top: 40px;
+    bottom: 0;
+}
+
+.cover-gone {
+    opacity: 0%;
+    transition: opacity 2s;
 }
 
 
@@ -216,7 +255,7 @@ input[type="file"] {
   font-weight: 500;
   line-height: 20px;
   list-style: none;
-  padding: 6px 16px;
+  padding: 10px 16px;
   position: relative;
   transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
   user-select: none;
